@@ -1,25 +1,25 @@
 class Medecin {
-  late String Prenom;
-  late String CIN;
-  late String AdressePro;
-  late String Nom;
-  late String Telephone;
-  late String GSM;
-  late String Autorisation;
-  late String MandatSan;
-  late String DecisionAttr;
-  late String CartePro;
-  late String TaxePro;
-  late String ICE;
-  late String IF;
-  late String CNSS;
-  late String RIB;
-  late String Banque;
-  late String Agence;
-  late String Ville;
-  late String Email;
-  late String Username;
-  late String Password;
+  String Prenom;
+  String CIN;
+  String AdressePro;
+  String Nom;
+  String Telephone;
+  String GSM;
+  String Autorisation;
+  String MandatSan;
+  String DecisionAttr;
+  String CartePro;
+  String TaxePro;
+  String ICE;
+  String IF;
+  String CNSS;
+  String RIB;
+  String Banque;
+  String Agence;
+  String Ville;
+  String Email;
+  String Username;
+  String Password;
 
   Medecin(
       this.Nom,
@@ -43,54 +43,54 @@ class Medecin {
       this.Email,
       this.Username,
       this.Password);
+
   Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{
-      'Nom': Nom,
-      'Prenom': Prenom,
-      'AdressePro': AdressePro,
-      'Telephone': Telephone,
-      'GSM': GSM,
-      'CIN': CIN,
-      'Autorisation': Autorisation,
-      'MandatSan': MandatSan,
-      'DecisionAttr': DecisionAttr,
-      'TaxePro': TaxePro,
-      'CartePro': CartePro,
-      'ICE': ICE,
-      'IF': IF,
-      'CNSS': CNSS,
-      'RIB': RIB,
-      'Banque': Banque,
-      'Agence': Agence,
-      'Ville': Ville,
-      'Email': Email,
-      'Username': Username,
-      'Password': Password
-    };
+    var map = new Map<String, dynamic>();
+    map['Username'] = Username;
+    map['Password'] = Password;
+    map['Email'] = Email;
+    map['Nom'] = Nom;
+    map['Prenom'] = Username;
+    map['AdressePro'] = AdressePro;
+    map['CIN'] = CIN;
+    map['Telephone'] = Telephone;
+    map['GSM'] = GSM;
+    map['Autorisation'] = Autorisation;
+    map['MandatSan'] = MandatSan;
+    map['DecisionAttr'] = DecisionAttr;
+    map['CartePro'] = CartePro;
+    map['TaxePro'] = TaxePro;
+    map['ICE'] = ICE;
+    map['IF'] = IF;
+    map['CNSS'] = CNSS;
+    map['RIB'] = RIB;
+    map['Banque'] = Banque;
+    map['Agence'] = Agence;
+    map['Ville'] = Ville;
     return map;
   }
 
-  Medecin.fromMap(Map<String, dynamic> map) {
-    Nom = map['Nom'];
-    Prenom = map['Prenom'];
-    AdressePro = map['AdressePro'];
-    Telephone = map['Telephone'];
-    GSM = map['GSM'];
-    CIN = map['CIN'];
-    Autorisation = map['Autorisation'];
-    MandatSan = map['MandatSan'];
-    DecisionAttr = map['DecisionAttr'];
-    TaxePro = map['TaxePro'];
-    CartePro = map['CartePro'];
-    ICE = map['ICE'];
-    IF = map['IF'];
-    CNSS = map['CNSS'];
-    RIB = map['RIB'];
-    Banque = map['Banque'];
-    Agence = map['Agence'];
-    Ville = map['Ville'];
-    Email = map['Email'];
-    Username = map['Username'];
-    Password = map['Password'];
+  Medecin.fromMap(dynamic obj) {
+    Nom = obj['Nom'];
+    Prenom = obj['Prenom'];
+    AdressePro = obj['AdressePro'];
+    Telephone = obj['Telephone'];
+    GSM = obj['GSM'];
+    CIN = obj['CIN'];
+    Autorisation = obj['Autorisation'];
+    MandatSan = obj['MandatSan'];
+    DecisionAttr = obj['DecisionAttr'];
+    TaxePro = obj['TaxePro'];
+    CartePro = obj['CartePro'];
+    ICE = obj['ICE'];
+    IF = obj['IF'];
+    CNSS = obj['CNSS'];
+    RIB = obj['RIB'];
+    Banque = obj['Banque'];
+    Agence = obj['Agence'];
+    Ville = obj['Ville'];
+    Email = obj['Email'];
+    Username = obj['Username'];
+    Password = obj['Password'];
   }
 }

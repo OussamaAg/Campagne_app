@@ -1,17 +1,15 @@
 import 'dart:async';
-
 import "package:campagne_v2/Models/Medecin.dart";
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:io' as io;
-
-import '../Models/Medecin.dart';
+import 'package:flutter/widgets.dart';
 
 class DbHelper {
-  static Database? _db;
-  static const String DB_Name = "Campagne.db";
-  static const String Table = "Medecin";
+  static Database database;
+  static const String DB_Name = 'campagne.db';
+  static const String Table = 'Medecin';
   static const int Version = 1;
 
   //formFields
@@ -37,10 +35,12 @@ class DbHelper {
   static const String M_Username = "Username";
   static const String M_Password = "Password";
 
+  DbHelper.ensureInitialized();
+
   //test if database exists
   Future<Database> get db async {
-    if (_db == null) {
-      _db = await initDb();
+    if (database == null) {
+      database = await initDb();
     }
     return db;
   }
@@ -52,42 +52,46 @@ class DbHelper {
     return db;
   }
 
-  FutureOr<void> _onCreate(Database db, int intVersion) async {
-    await db.execute("CREATE TABLE $Table("
-        "$M_CIN TEXT,"
-        "$M_Nom TEXT, "
-        "$M_Prenom TEXT,"
-        "$M_Telephone TEXT,"
-        "$M_GSM TEXT,"
-        "$M_Email TEXT,"
-        "$M_Username TEXT,"
-        "$M_Password TEXT ,"
-        "$M_Adresse TEXT,"
-        "$M_Autorisation TEXT,"
-        "$M_Decision TEXT,"
-        "$M_Mandat TEXT,"
-        "$M_CartePro TEXT,"
-        "$M_TaxePro TEXT,"
-        "$M_ICE TEXT,"
-        "$M_IF TEXT,"
-        "$M_CNSS TEXT,"
-        "$M_RIB TEXT,"
-        "$M_Banque,"
-        "$M_Agence TEXT,"
-        "$M_Ville TEXT,"
-        "PRIMARY KEY ($M_CIN))");
+  _onCreate(Database db, int intVersion) async {
+    await db.execute("""CREATE TABLE $Table(
+        $M_CIN TEXT PRIMARY KEY,
+        $M_Nom TEXT, 
+        $M_Prenom TEXT,
+        $M_Telephone TEXT,
+        $M_GSM TEXT,
+        $M_Email TEXT,
+        $M_Username TEXT,
+        $M_Password TEXT ,
+        $M_Adresse TEXT,
+        $M_Autorisation TEXT,
+        $M_Decision TEXT,
+        $M_Mandat TEXT,
+        $M_CartePro TEXT,
+        $M_TaxePro TEXT,
+        $M_ICE TEXT,
+        $M_IF TEXT,
+        $M_CNSS TEXT,
+        $M_RIB TEXT,
+        $M_Banque TEXT,
+        $M_Agence TEXT,
+        $M_Ville TEXT,
+        )""");
+    ;
   }
 
-  Future<Medecin> saveMedecin(Medecin medecin) async {
-    var dbClient = await db;
-    medecin.CIN = (await dbClient.insert(Table, medecin.toMap())) as String;
-    return medecin;
+  Future<int> saveMedecin(Medecin medecin) async {
+    final db = await initDb();
+    return db.insert(
+      "Medecin", medecin.toMap(), //toMap() function from MemoModel
+      conflictAlgorithm:
+          ConflictAlgorithm.ignore, //ignores conflicts due to duplicate entries
+    );
   }
 
-  Future<Medecin?> getLoginMedecin(String username, String password) async {
-    var dbClient = await db;
+  Future<Medecin> getLoginMedecin(String username, String password) async {
+    final dbClient = await initDb();
     var res = await dbClient.rawQuery("SELECT * FROM $Table WHERE "
-        "$M_Username='$username'AND"
+        "$M_Username='$username'AND "
         "$M_Password='$password'");
     //Test if the user exists
     if (res.length > 0) {

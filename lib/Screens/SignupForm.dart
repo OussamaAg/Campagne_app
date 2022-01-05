@@ -2,13 +2,9 @@ import 'package:campagne_v2/Comm/genTextFormField.dart';
 import 'package:campagne_v2/DatabaseHandler/DbHelper.dart';
 import 'package:campagne_v2/Models/Medecin.dart';
 import 'package:campagne_v2/Screens/LoginForm.dart';
-import 'package:campagne_v2/Screens/LoginForm.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
 
-import '../Comm/genTextFormField.dart';
-import '../DatabaseHandler/DbHelper.dart';
-import '../Models/Medecin.dart';
+import 'package:toast/toast.dart';
 
 class SignupForm extends StatefulWidget {
   @override
@@ -16,7 +12,8 @@ class SignupForm extends StatefulWidget {
 }
 
 class _SignupFormState extends State<SignupForm> {
-  final _formkey = new GlobalKey<FormState>();
+  final primaryColor = Color(0xFF151026);
+  final _formKey = new GlobalKey<FormState>();
 
   final _conNom = TextEditingController();
   final _conPrenom = TextEditingController();
@@ -40,22 +37,16 @@ class _SignupFormState extends State<SignupForm> {
   final _conUserName = TextEditingController();
   final _conPassword = TextEditingController();
   final _conCPassword = TextEditingController();
-
-  //color of appbar
-  final primaryColor = Color(0xFF151026);
-
   var dbHelper;
-
   @override
   void initState() {
     super.initState();
-    dbHelper = DbHelper();
+    dbHelper = DbHelper.ensureInitialized();
   }
 
   //function to sign up the user
   SignUp() async {
-    //Global key for the form
-
+    DbHelper dbHelper = new DbHelper.ensureInitialized();
     //getting all the values of textfields
     String Nom = _conNom.text;
     String Prenom = _conPrenom.text;
@@ -80,13 +71,14 @@ class _SignupFormState extends State<SignupForm> {
     String Password = _conPassword.text;
     String ConfirmPass = _conCPassword.text;
 
-    if (_formkey.currentState != null) {
+    if (_formKey.currentState.validate()) {
       if (Password != ConfirmPass) {
-        Toast.show("les mots de passes sont differents", context,
-            duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+        print("hejjj");
+        Toast.show("Password mismatch", context,
+            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
       } else {
-        _formkey.currentState?.validate();
-        _formkey.currentState?.save();
+        _formKey.currentState.save();
+
         Medecin medecin = Medecin(
             Nom,
             Prenom,
@@ -109,17 +101,15 @@ class _SignupFormState extends State<SignupForm> {
             Email,
             Username,
             Password);
-        // process of saving a doctor
+
         await dbHelper.saveMedecin(medecin).then((MedecinData) {
-          Toast.show("Medecin enregistré avec succés", context,
-              duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (_) => LoginForm()),
-              (Route<dynamic> route) => false);
+          Toast.show("Medecin enregistré", context,
+              duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => LoginForm()));
         }).catchError((error) {
-          Toast.show("Erreur d'enregistrement", context,
-              duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+          Toast.show("Erreur: medecin pas enregistré", context,
+              duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
         });
       }
     }
@@ -134,7 +124,7 @@ class _SignupFormState extends State<SignupForm> {
         centerTitle: true,
       ),
       body: Form(
-        key: _formkey,
+        key: _formKey,
         child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Container(

@@ -1,8 +1,10 @@
 import 'package:campagne_v2/Comm/genTextFormField.dart';
 import 'package:campagne_v2/DatabaseHandler/DbHelper.dart';
+import 'package:campagne_v2/Models/Medecin.dart';
 import 'package:campagne_v2/Screens/Dashboard.dart';
 import 'package:campagne_v2/Screens/SignupForm.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 class LoginForm extends StatefulWidget {
@@ -11,23 +13,24 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  Future<SharedPreferences> _pref = SharedPreferences.getInstance();
+  final _formkey = new GlobalKey<FormState>();
+
   final _conUserName = TextEditingController();
   final _conPassword = TextEditingController();
   final primaryColor = Color(0xFF151026);
   //login function
-  final _formkey = new GlobalKey<FormState>();
-  var dbHelper;
-
   @override
   void initState() {
     super.initState();
-    dbHelper = DbHelper();
   }
 
 //login function
   login() async {
+    DbHelper dbHelper = new DbHelper.ensureInitialized();
     String Username = _conUserName.text;
     String Password = _conPassword.text;
+
     if (Username.isEmpty) {
       Toast.show("Veuillez entrer nom d\'utilisateur", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
@@ -35,12 +38,30 @@ class _LoginFormState extends State<LoginForm> {
       Toast.show("Veuillez entrer mot de passe", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
     } else {
-      await dbHelper.getLoginMedecin(Username, Password);
-      Navigator.pushAndRemoveUntil( 
-          context,
-          MaterialPageRoute(builder: (_) => Dashboard()),
-          (Route<dynamic> route) => false);
+      await dbHelper.getLoginMedecin(Username, Password).then((MedecinData) {
+        if (MedecinData != null) {
+          setSP(MedecinData).whenComplete(() {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => Dashboard()),
+                (Route<dynamic> route) => false);
+          });
+        } else {
+          Toast.show("Erreur : utilisateur n'existe pas", context,
+              duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+        }
+      }).catchError((Error) {
+        Toast.show("Erreur: Verifiez vos cordonnées  ", context,
+            duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      });
     }
+  }
+
+  Future setSP(Medecin medecin) async {
+    final SharedPreferences sp = await _pref;
+
+    sp.setString("Username", medecin.Username);
+    sp.setString("Password", medecin.Password);
   }
 
   @override
@@ -52,7 +73,7 @@ class _LoginFormState extends State<LoginForm> {
             'Vetsoft ',
           ),
           centerTitle: true),
-      body: Container(
+      body: SingleChildScrollView(
           child: Container(
         child: Center(
           child: Column(

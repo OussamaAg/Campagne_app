@@ -9,16 +9,18 @@ class getTextFormField extends StatelessWidget {
   IconData icon;
   bool isobscureText;
   TextInputType inputType;
+  bool isEnable;
 
   //color of hintname
   final primaryColor = Color(0xFF151026);
 
   getTextFormField(
-      {required this.controller,
-      required this.icon,
-      required this.hintname,
+      {this.controller,
+      this.icon,
+      this.hintname,
       this.isobscureText = false,
-      this.inputType = TextInputType.text});
+      this.inputType = TextInputType.text,
+      this.isEnable = true});
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +31,13 @@ class getTextFormField extends StatelessWidget {
         controller: controller,
         obscureText: isobscureText,
         keyboardType: inputType,
+        enabled: isEnable,
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return "Veuillez entrer $hintname";
+            return 'Veuillez entrez $hintname';
           }
           if (hintname == "Email" && !validateEmail(value)) {
-            return "Veuillez entrer un email valide";
+            return 'Veuillez entrer un email valide ';
           }
           return null;
         },
@@ -48,6 +51,7 @@ class getTextFormField extends StatelessWidget {
             borderSide: BorderSide(color: primaryColor),
           ),
           prefixIcon: Icon(icon),
+          labelText: hintname,
           hintText: hintname,
           fillColor: Colors.grey[200],
           filled: true,
