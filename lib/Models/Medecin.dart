@@ -22,7 +22,7 @@ class Medecin {
   String Password;
 
   Medecin(
-      this.Nom,
+        this.Nom,
       this.Prenom,
       this.AdressePro,
       this.Telephone,
