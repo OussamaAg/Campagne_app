@@ -20,6 +20,7 @@ class _SignupFormState extends State<SignupForm> {
   final _conCIN = TextEditingController();
   final _conAdresse = TextEditingController();
   final _conTelephone = TextEditingController();
+  final _conCode = TextEditingController();
   final _conGSM = TextEditingController();
   final _conAutorisation = TextEditingController();
   final _conMandat = TextEditingController();
@@ -70,6 +71,7 @@ class _SignupFormState extends State<SignupForm> {
     String Username = _conUserName.text;
     String Password = _conPassword.text;
     String ConfirmPass = _conCPassword.text;
+    String Code_Zone = _conCode.text;
 
     if (_formKey.currentState.validate()) {
       if (Password != ConfirmPass) {
@@ -100,7 +102,8 @@ class _SignupFormState extends State<SignupForm> {
             Ville,
             Email,
             Username,
-            Password);
+            Password,
+            Code_Zone);
 
         await dbHelper.saveMedecin(medecin).then((MedecinData) {
           Toast.show("Medecin enregistré", context,
@@ -181,6 +184,13 @@ class _SignupFormState extends State<SignupForm> {
                       controller: _conGSM,
                       icon: Icons.phone,
                       hintname: "GSM",
+                      isobscureText: false,
+                    ),
+                    SizedBox(height: 10.0),
+                    getTextFormField(
+                      controller: _conCode,
+                      icon: Icons.code,
+                      hintname: "Code Zone",
                       isobscureText: false,
                     ),
                     SizedBox(height: 10.0),

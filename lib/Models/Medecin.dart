@@ -3,6 +3,7 @@ class Medecin {
   String CIN;
   String AdressePro;
   String Nom;
+  String Code_Zone;
   String Telephone;
   String GSM;
   String Autorisation;
@@ -22,7 +23,7 @@ class Medecin {
   String Password;
 
   Medecin(
-        this.Nom,
+      this.Nom,
       this.Prenom,
       this.AdressePro,
       this.Telephone,
@@ -42,7 +43,8 @@ class Medecin {
       this.Ville,
       this.Email,
       this.Username,
-      this.Password);
+      this.Password,
+      this.Code_Zone);
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
@@ -67,6 +69,8 @@ class Medecin {
     map['Banque'] = Banque;
     map['Agence'] = Agence;
     map['Ville'] = Ville;
+    map['Code_Zone'] = Code_Zone;
+
     return map;
   }
 
@@ -92,5 +96,6 @@ class Medecin {
     Email = obj['Email'];
     Username = obj['Username'];
     Password = obj['Password'];
+    Code_Zone = obj['Code_Zone'];
   }
 }

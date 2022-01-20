@@ -39,6 +39,7 @@ dependencies:
   toast: ^0.1.5
   path: 
   shared_preferences: ^2.0.11  
+  flutter_svg: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -64,7 +65,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   # - assets/images/
+   - assets/images/
    - campagne.db
 
   # An image asset can refer to one or more resolution-specific "variants", see

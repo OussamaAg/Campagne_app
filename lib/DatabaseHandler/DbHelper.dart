@@ -53,30 +53,29 @@ class DbHelper {
   }
 
   _onCreate(Database db, int intVersion) async {
-    await db.execute("""CREATE TABLE $Table(
-        $M_CIN TEXT PRIMARY KEY,
-        $M_Nom TEXT, 
-        $M_Prenom TEXT,
-        $M_Telephone TEXT,
-        $M_GSM TEXT,
-        $M_Email TEXT,
-        $M_Username TEXT,
-        $M_Password TEXT ,
-        $M_Adresse TEXT,
-        $M_Autorisation TEXT,
-        $M_Decision TEXT,
-        $M_Mandat TEXT,
-        $M_CartePro TEXT,
-        $M_TaxePro TEXT,
-        $M_ICE TEXT,
-        $M_IF TEXT,
-        $M_CNSS TEXT,
-        $M_RIB TEXT,
-        $M_Banque TEXT,
-        $M_Agence TEXT,
-        $M_Ville TEXT,
-        )""");
-    ;
+    await db.execute("CREATE TABLE $Table("
+        "$M_CIN TEXT PRIMARY KEY,"
+        "$M_Nom TEXT,"
+        "$M_Prenom TEXT,"
+        "$M_Telephone TEXT,"
+        "$M_GSM TEXT,"
+        "$M_Email TEXT,"
+        "$M_Username TEXT,"
+        "$M_Password TEXT ,"
+        "$M_Adresse TEXT,"
+        "$M_Autorisation TEXT,"
+        "$M_Decision TEXT,"
+        "$M_Mandat TEXT,"
+        "$M_CartePro TEXT,"
+        "$M_TaxePro TEXT,"
+        "$M_ICE TEXT,"
+        "$M_IF TEXT,"
+        "$M_CNSS TEXT,"
+        "$M_RIB TEXT,"
+        "$M_Banque TEXT,"
+        "$M_Agence TEXT,"
+        "$M_Ville TEXT"
+        ")");
   }
 
   Future<int> saveMedecin(Medecin medecin) async {

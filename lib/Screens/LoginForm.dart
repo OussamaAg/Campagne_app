@@ -80,7 +80,7 @@ class _LoginFormState extends State<LoginForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 10.0),
-              SizedBox(height: 30.0),
+              SizedBox(height: 200.0),
               Text(
                 "Login",
                 style: TextStyle(
@@ -121,7 +121,7 @@ class _LoginFormState extends State<LoginForm> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Nouveau à cette application? ',
+                      'Nouveau à Vetasoft? ',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
